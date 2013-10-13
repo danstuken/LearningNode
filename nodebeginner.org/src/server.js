@@ -1,8 +1,13 @@
 var http = require("http");
+var url = require("url");
 
-function startHttpServer(portNumber){
+function startHttpServer(portNumber, router){
 	http.createServer(function(request, response){
-		console.log("Request received.");
+		var requestedPath = url.parse(request.url).pathname;
+		console.log("Request received for " + requestedPath);
+
+		router.route(requestedPath);
+
 		response.writeHead(200, {"Content-Type": "text/plain"});
 		response.write("hello world");
 		response.end();
